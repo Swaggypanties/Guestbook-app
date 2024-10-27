@@ -4,8 +4,9 @@ const fs = require('fs');
 
 app.use(express.static('public'));
 
+
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the webpage' });
+    res.sendFile( __dirname + '/newmesg.html');
 });
 
 app.get('/guestbook', (req, res) => {
@@ -13,9 +14,13 @@ app.get('/guestbook', (req, res) => {
 });
 
 app.get('/newmessage', (req, res) => {
-    res.json({ message: 'Here are all the new messages' });
+    res.sendFile( __dirname + '/public/Application/newmesg.html');
 });
 
 app.get('/ajaxmessage', (req, res) => {
     res.json({ message: 'You can input a new message here' });
+});
+
+app.listen(3000, () => {
+    console.log('Server is running in port 3000');
 });

@@ -1,14 +1,17 @@
 document.getElementById('guestbook-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevents the sumbission of a default form
 
+    const timestamp = new Date();
+
     const formData = {
         name: document.getElementById('name').value,
         country: document.getElementById('country').value,
-        message: document.getElementById('message').value
+        message: document.getElementById('message').value,
+        dateSubmitted: timestamp
     };
 
     // Use fetch to send the data to the backend (Express)
-    fetch('/adduser', {
+    fetch('/adduser                         ', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
