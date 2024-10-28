@@ -11,7 +11,7 @@ document.getElementById('guestbook-form').addEventListener('submit', function(ev
     };
 
     // Use fetch to send the data to the backend (Express)
-    fetch('/adduser                         ', {
+    fetch('/ajaxmessage', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,4 +26,25 @@ document.getElementById('guestbook-form').addEventListener('submit', function(ev
     .catch((error) => {
         console.error('Error:', error);
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch existing guestbook entries when the page loads
+    fetch('/jsondata')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('guestbook-entries');
+            tableBody.innerHTML = ''; // Clear any existing content
+
+            data.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.username || entry.name}</td>
+                    <td>${entry.country}</td>
+                    <td>${entry.message}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching guestbook entries:', error));
 });
