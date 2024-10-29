@@ -16,7 +16,7 @@ document.getElementById('Ajax-Form').addEventListener('submit', function (event)
     .then(messages => {
         document.getElementById('messageList').innerHTML = messages.map(msg => `
             <div>
-                <h3>${msg.username} from ${msg.country}</h3>
+                <h3>${msg.name} from ${msg.country}</h3>
                 <p>${msg.message}</p>
                 <small>${new Date(msg.timestamp).toLocaleString()}</small>
             </div>

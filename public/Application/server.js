@@ -6,11 +6,12 @@ const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Root route to serve home page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + 'index.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 // Guestbook route to display messages
@@ -23,7 +24,7 @@ app.get('/guestbook', (req, res) => {
 
 // New message form route
 app.get('/newmessage', (req, res) => {
-    res.sendFile(path.join(__dirname + 'newmessage.html'));
+    res.sendFile(path.join(__dirname, '/newmesg.html'));
 });
 
 // Handle form submission for new message
@@ -36,9 +37,11 @@ app.post('/newmessage', (req, res) => {
     };
 
     fs.readFile('guestbookdata.json', 'utf8', (err, data) => {
+        const messages = err ? [] : JSON.parse(data);
         messages.push(newMessage);
 
         fs.writeFile('guestbookdata.json', JSON.stringify(messages), (err) => {
+            if (err) return res.status(500).send("Error saving message.");
             res.redirect('/guestbook');
         });
     });
@@ -46,7 +49,7 @@ app.post('/newmessage', (req, res) => {
 
 // AJAX form route to display form and submit via AJAX
 app.get('/ajaxmessage', (req, res) => {
-    res.sendFile(path.join(__dirname + 'ajaxmessage.html'));
+    res.sendFile(path.join(__dirname, '/ajaxmessageform.html'));
 });
 
 // Handle AJAX submission and send back messages
