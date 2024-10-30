@@ -14,11 +14,15 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// Guestbook route to display messages
 app.get('/guestbook', (req, res) => {
+    res.sendFile(path.join(__dirname, '/guestbook.html'));
+});
+
+// Guestbook route to display messages
+app.get('/guestbookdata.json', (req, res) => {
     fs.readFile('guestbookdata.json', 'utf8', (err, data) => {
-        const messages = JSON.parse(data);
-        res.render('guestbook', { messages });
+        if (err) return res.status(500).send("Error reading messages.");
+        res.json(JSON.parse(data));
     });
 });
 
@@ -26,6 +30,7 @@ app.get('/guestbook', (req, res) => {
 app.get('/newmessage', (req, res) => {
     res.sendFile(path.join(__dirname, '/newmesg.html'));
 });
+
 
 // Handle form submission for new message
 app.post('/newmessage', (req, res) => {
