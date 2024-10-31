@@ -12,9 +12,10 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware to parse JSON and URL-encoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'))
 
 // Serve static files from the "public" directory
-app.use( express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Serve the home page with EJS
 app.get('/', (req, res) => {
